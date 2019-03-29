@@ -7,6 +7,10 @@ import java.util.List;
 
 import tr.com.nihatalim.richcycler.renderers.Renderer;
 
+/**
+ * This class is filter's abstract class.
+ * @param <T1> T1 is renderer type.
+ */
 public abstract class Filter<T1> implements Renderer<T1> {
     public String name, display, renderer;
 
@@ -30,6 +34,11 @@ public abstract class Filter<T1> implements Renderer<T1> {
         this.type = type;
     }
 
+    /**
+     * This method is find an item from filters with display property.
+     * @param display This parameter is property of item.
+     * @return Returns item which founded from display.
+     */
     public Item getItemWithDisplay(String display){
         for (Item item:items) {
             if(item.display.equals(display)) return item;

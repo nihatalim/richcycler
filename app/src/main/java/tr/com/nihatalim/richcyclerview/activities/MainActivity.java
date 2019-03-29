@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("SearchFilterResult", searchFilterResult);
     }
 
+
     private void reloadFilters(){
         this.richcycler.reloadFilters(FILTER_ID);
     }

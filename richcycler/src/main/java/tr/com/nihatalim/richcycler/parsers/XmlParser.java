@@ -16,8 +16,19 @@ import tr.com.nihatalim.richcycler.filters.Filter;
 import tr.com.nihatalim.richcycler.filters.FilterType;
 import tr.com.nihatalim.richcycler.filters.Item;
 
+/**
+ * This class is contains parsing methods of xml file.
+ * 
+ * @Author Nihat ALİM
+ */
 public class XmlParser {
 
+    /**
+     * This method is perform parsing xml file and create list of filter.
+     * @param xmlFileName This parameter is file name of which contains filters.
+     * @param context This parameter is a context instance of your application.
+     * @return Returns list of filter after parse xml file.
+     */
     public static List<Filter> parse(String xmlFileName, Context context){
         List<Filter> filters = null;
         Filter filter = null;

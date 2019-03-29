@@ -11,12 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckBoxFilter extends Filter<List<String>> {
+    /**
+     * This list of checkboxes stored inside.
+     */
     private List<CheckBox> checkBoxes = new ArrayList<>();
 
+    /**
+     * This method is a constructor for creating new instance of CheckBoxFilter
+     * @param context This parameter is application context.
+     * @param name This parameter is name of filter.
+     * @param display This parameter is display of filter.
+     * @param renderer This parameter is renderer class of filter.
+     * @param type This parameter is type of filter.
+     */
     public CheckBoxFilter(Context context, String name, String display, String renderer, FilterType type) {
         super(context, name, display, renderer, type);
     }
 
+    /**
+     * This method create a view.
+     * @return Return rendered view.
+     */
     @Override
     public View render() {
         LinearLayout linearLayout = new LinearLayout(this.context);
@@ -49,6 +64,10 @@ public class CheckBoxFilter extends Filter<List<String>> {
         return linearLayout;
     }
 
+    /**
+     * This method is returns result of checkbox results.
+     * @return Returns result of checkbox results.
+     */
     @Override
     public List<String> result() {
         List<String> result = new ArrayList<>();
@@ -64,6 +83,9 @@ public class CheckBoxFilter extends Filter<List<String>> {
         return result;
     }
 
+    /**
+     * This method is clear all checkboxes.
+     */
     @Override
     public void clear() {
         this.checkBoxes.clear();
