@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Richcycler">
+        <attr name="filter" format="string" />
+        <attr name="holder" format="reference" />
+    </declare-styleable>
+</resources>

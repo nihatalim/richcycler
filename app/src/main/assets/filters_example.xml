@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filters>
+    <filter name="price" display = "Price" type="checkbox"
+        renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
+
+        <item value="10" display="$10" />
+        <item value="20" display="$20"/>
+    </filter>
+
+    <filter name="topic" display="Topic" type="checkbox"
+        renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
+
+        <item value="social" display="Social"/>
+        <item value="economical" display="Economical"/>
+    </filter>
+
+    <filter name="job" display="Job" type="checkbox"
+        renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
+
+        <item value="engineer" display="Engineer"/>
+        <item value="lawyer" display="Lawyer"/>
+        <item value="teacher" display="Teacher"/>
+        <item value="student" display="Student"/>
+        <item value="worker" display="Worker"/>
+    </filter>
+
+    <filter name="search" display="Search" type="textbox"
+        renderer="tr.com.nihatalim.richcycler.filters.TextBoxFilter">
+    </filter>
+</filters>

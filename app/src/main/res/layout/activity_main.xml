@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnShowFilter"
+        android:text="Show Filters"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <tr.com.nihatalim.richcycler.views.Richcycler
+        android:id="@+id/richcycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:holder="@layout/holder_user"
+        app:filter="filters_example"
+        />
+</LinearLayout>
