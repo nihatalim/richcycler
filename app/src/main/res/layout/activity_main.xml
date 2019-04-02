@@ -11,6 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnPreviousPage"
+            android:text="PREVIOUS PAGE"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/btnNextPage"
+            android:text="NEXT PAGE"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
     <tr.com.nihatalim.richcycler.views.Richcycler
         android:id="@+id/richcycler"
         android:layout_width="match_parent"

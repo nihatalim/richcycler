@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.com.nihatalim.richcycler.adapter.OnAdapter;
+import tr.com.nihatalim.richcycler.adapter.OnPaginate;
 import tr.com.nihatalim.richcycler.filters.Item;
 import tr.com.nihatalim.richcycler.views.Richcycler;
 import tr.com.nihatalim.richcyclerview.R;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Richcycler<UserHolder, User> richcycler;
 
-    private Button btnShowFilter;
+    private Button btnShowFilter, btnPreviousPage, btnNextPage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +44,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.btnShowFilter = findViewById(R.id.btnShowFilter);
+        this.btnPreviousPage = findViewById(R.id.btnPreviousPage);
+        this.btnNextPage = findViewById(R.id.btnNextPage);
+
+        this.btnPreviousPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(richcycler.adapter.getPageNumber() > 1){
+                    richcycler.adapter.paginate(richcycler.adapter.getPageNumber() - 1);
+                }
+            }
+        });
+
+        this.btnNextPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(richcycler.adapter.getPageNumber() < 10){
+                    richcycler.adapter.paginate(richcycler.adapter.getPageNumber() + 1);
+                }
+            }
+        });
+
 
         this.btnShowFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +118,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        this.richcycler.adapter.setObjectList(this.fetchUsers());
+        this.richcycler.adapter.setPaginationSize(10);
+
+        this.richcycler.adapter.setObjectList(this.fetchUsers(1, this.richcycler.adapter.getPaginationSize()));
+
+        this.richcycler.adapter.setOnPaginate(new OnPaginate<User>() {
+            @Override
+            public void paginate(int nextPageNumber, int paginationSize, User firstItem, User lastItem, Bundle bundle) {
+                List<User> users = fetchUsers(nextPageNumber, paginationSize);
+                richcycler.adapter.setObjectList(users);
+                richcycler.adapter.notifyDataSetChanged();
+                richcycler.adapter.setPageNumber(nextPageNumber);
+            }
+        });
 
         this.richcycler.build();
 
@@ -145,13 +179,12 @@ public class MainActivity extends AppCompatActivity {
         this.richcycler.clearFiltersStates(FILTER_ID);
     }
 
-    private List<User> fetchUsers(){
+    private List<User> fetchUsers(int pageNumber, int paginationSize){
         List<User> users = new ArrayList<>();
-        users.add(new User("Nihat"));
-        users.add(new User("Ali"));
-        users.add(new User("Veli"));
-        users.add(new User("Nalan"));
-        users.add(new User("Haluk"));
+
+        for(int i = 0;i<paginationSize;i++){
+            users.add(new User("Page_" + pageNumber + " Item_" + i));
+        }
         return users;
     }
 

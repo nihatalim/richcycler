@@ -47,7 +47,7 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
     /**
      * This property is an interface that uses for pagination stuffs.
      */
-    private OnPaginate OnPaginate = null;
+    private OnPaginate<TModel> OnPaginate = null;
 
     /**
      * This property is layout manager for using layout
@@ -55,24 +55,14 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
     public RecyclerView.LayoutManager LayoutManager = null;
 
     /**
-     * This property is holds last paginated time.
-     */
-    public Date LastPaginationTime = new Date();
-
-    /**
      * This property holds page number.
      */
-    public int pageNumber = 1;
+    private int pageNumber = 1;
 
     /**
      * This property holds pagination size.
      */
-    public int paginationSize = 10;
-
-    /**
-     * This property holds pagination time limit.
-     */
-    public long paginationTimeLimit = 1000;
+    private int paginationSize = 20;
 
     /**
      * This property is a flag for loading items.
@@ -218,6 +208,14 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
     /**
      * This method is perform pagination stuffs.
      * @param pageNumber
+     */
+    public void paginate(int pageNumber){
+        this.paginate(pageNumber, null);
+    }
+
+    /**
+     * This method is perform pagination stuffs.
+     * @param pageNumber
      * @param bundle
      */
     public void paginate(int pageNumber, Bundle bundle){
@@ -225,17 +223,11 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
         TModel firstItem = null;
         TModel lastItem = null;
 
-        Date nextTime = new Date(this.LastPaginationTime.getTime() + this.paginationTimeLimit);
-        Date currentTime = new Date();
-
-        if(nextTime.before(currentTime)){
-            if(this.items.size()>0){
-                firstItem = this.items.get(0);
-                lastItem = this.items.get(this.items.size()-1);
-            }
-            this.OnPaginate.<TModel>paginate(pageNumber, this.paginationSize, firstItem, lastItem, bundle);
-            LastPaginationTime = currentTime;
+        if(this.items.size()>0){
+            firstItem = this.items.get(0);
+            lastItem = this.items.get(this.items.size()-1);
         }
+        this.OnPaginate.<TModel>paginate(pageNumber, this.paginationSize, firstItem, lastItem, bundle);
     }
 
     /**
@@ -281,7 +273,7 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
         return OnPaginate;
     }
 
-    public void setOnPaginate(OnPaginate onPaginate) {
+    public void setOnPaginate(OnPaginate<TModel> onPaginate) {
         OnPaginate = onPaginate;
     }
 
@@ -295,6 +287,22 @@ public class RichcyclerAdapter<THolder extends RecyclerView.ViewHolder, TModel>
 
     public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         LayoutManager = layoutManager;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public int getPaginationSize() {
+        return paginationSize;
+    }
+
+    public void setPaginationSize(int paginationSize) {
+        this.paginationSize = paginationSize;
     }
 
     /**
