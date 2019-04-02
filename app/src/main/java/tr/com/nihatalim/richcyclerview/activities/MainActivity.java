@@ -13,15 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tr.com.nihatalim.richcycler.adapter.OnAdapter;
-import tr.com.nihatalim.richcycler.filters.Filter;
 import tr.com.nihatalim.richcycler.filters.Item;
 import tr.com.nihatalim.richcycler.views.Richcycler;
 import tr.com.nihatalim.richcyclerview.R;
@@ -97,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         this.richcycler.build();
 
         this.richcycler.loadFilters(FILTER_ID);
-
     }
 
     private void handleResults(){

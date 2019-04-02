@@ -10,7 +10,7 @@ public class TextBoxFilter extends Filter<String> {
     /**
      * This property is hold an edittext.
      */
-    public EditText textBox = null;
+    private EditText textBox = null;
 
     private String entry;
 
