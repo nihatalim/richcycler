@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <filters>
-    <filter name="price" display = "Price" type="checkbox"
-        renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
-
-        <item value="10" display="$10" />
-        <item value="20" display="$20"/>
-    </filter>
-
-    <filter name="topic" display="Topic" type="checkbox"
-        renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
-
-        <item value="social" display="Social"/>
-        <item value="economical" display="Economical"/>
-    </filter>
-
     <filter name="job" display="Job" type="checkbox"
         renderer="tr.com.nihatalim.richcycler.filters.CheckBoxFilter">
 
@@ -26,5 +12,33 @@
 
     <filter name="search" display="Search" type="textbox"
         renderer="tr.com.nihatalim.richcycler.filters.TextBoxFilter">
+    </filter>
+
+    <filter name="age" display="Age" type="number"
+        renderer="tr.com.nihatalim.richcycler.filters.TextBoxNumberFilter">
+    </filter>
+
+    <filter name="spinner_sex" display="Sex" type="number"
+        renderer="tr.com.nihatalim.richcycler.filters.SpinnerFilter">
+
+        <item value="male" display="Male" />
+        <item value="female" display="Female" />
+        <item value="ball" display="Ball" />
+    </filter>
+
+    <filter name="radio_sex" display="Sex" type="radio"
+        renderer="tr.com.nihatalim.richcycler.filters.RadioFilter">
+
+        <item value="male" display="Male" />
+        <item value="female" display="Female" />
+        <item value="ball" display="Ball" />
+    </filter>
+
+    <filter name="seekbar_age" display="Age" type="seekbar"
+        renderer="tr.com.nihatalim.richcycler.filters.SeekbarFilter">
+
+        <item value="min" display="0" />
+        <item value="max" display="100" />
+        <item value="step" display="1" />
     </filter>
 </filters>

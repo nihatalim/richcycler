@@ -12,6 +12,8 @@ public class TextBoxFilter extends Filter<String> {
      */
     private EditText textBox = null;
 
+    private String entry;
+
     /**
      * This method is a constructor for creating new instance of CheckBoxFilter
      * @param context This parameter is application context.
@@ -30,19 +32,13 @@ public class TextBoxFilter extends Filter<String> {
      */
     @Override
     public View render() {
-        LinearLayout linearLayout = new LinearLayout(this.context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linearLayout.setLayoutParams(layoutParams);
 
-        if(textBox==null){
-            textBox = new EditText(this.context);
-            textBox.setHint(this.display);
-            textBox.setLayoutParams(layoutParams);
-        }else{
-            ((ViewGroup) textBox.getParent()).removeView(textBox);
-        }
+        textBox = new EditText(this.context);
+        textBox.setHint(this.display);
+        textBox.setLayoutParams(layoutParams);
+        textBox.setText(entry);
+
         return textBox;
     }
 
@@ -52,7 +48,7 @@ public class TextBoxFilter extends Filter<String> {
      */
     @Override
     public String result() {
-        return textBox.getText().toString();
+        return this.entry;
     }
 
     /**
@@ -61,5 +57,11 @@ public class TextBoxFilter extends Filter<String> {
     @Override
     public void clear() {
         this.textBox.setText("");
+        this.entry = "";
+    }
+
+    @Override
+    public void save() {
+        this.entry = this.textBox.getText().toString();
     }
 }

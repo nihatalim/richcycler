@@ -1,8 +1,8 @@
 package tr.com.nihatalim.richcycler.filters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,11 +10,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckBoxFilter extends Filter<List<String>> {
+import tr.com.nihatalim.richcycler.R;
+
+public class CheckBoxFilter extends Filter<List<Item>> {
     /**
-     * This list of checkboxes stored inside.
+     * This list of checked items stored inside.
      */
-    private List<CheckBox> checkBoxes = new ArrayList<>();
+    private List<Item> checkedItems = new ArrayList<>();
+
+    /**
+     * Container of checkboxes
+     */
+    private LinearLayout llCbRich;
 
     /**
      * This method is a constructor for creating new instance of CheckBoxFilter
@@ -34,34 +41,21 @@ public class CheckBoxFilter extends Filter<List<String>> {
      */
     @Override
     public View render() {
-        LinearLayout linearLayout = new LinearLayout(this.context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        View view = LayoutInflater.from(context).inflate(R.layout.checkbox_view, null);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linearLayout.setLayoutParams(layoutParams);
+        TextView tvCbRich = view.findViewById(R.id.tvCbRich);
+        tvCbRich.setText(this.display);
 
-        TextView textView = new TextView(context);
-        textView.setLayoutParams(layoutParams);
-        textView.setTextSize(18);
-        textView.setText(this.display);
-        linearLayout.addView(textView);
+        llCbRich = view.findViewById(R.id.llCbRich);
 
-        if(checkBoxes.size() > 0 && !checkBoxes.contains(null)){
-            for (CheckBox cb:checkBoxes) {
-                ((ViewGroup) cb.getParent()).removeView(cb);
-                linearLayout.addView(cb);
-            }
-        }
-        else{
-            for (Item item:items) {
-                CheckBox cb = new CheckBox(context);
-                cb.setText(item.display);
-                this.checkBoxes.add(cb);
-                linearLayout.addView(cb);
-            }
+        for (Item item : items) {
+            CheckBox checkBox = (CheckBox) LayoutInflater.from(context).inflate(R.layout.checkbox_cb_view, null);
+            checkBox.setText(item.display);
+            if(this.checkedItems.contains(item)) checkBox.setChecked(true);
+            this.llCbRich.addView(checkBox);
         }
 
-        return linearLayout;
+        return view;
     }
 
     /**
@@ -69,18 +63,8 @@ public class CheckBoxFilter extends Filter<List<String>> {
      * @return Returns result of checkbox results.
      */
     @Override
-    public List<String> result() {
-        List<String> result = new ArrayList<>();
-
-        for (CheckBox cb:this.checkBoxes) {
-            if(cb.isChecked()){
-                Item item = this.getItemWithDisplay(cb.getText().toString());
-                if(item != null){
-                    result.add(item.value);
-                }
-            }
-        }
-        return result;
+    public List<Item> result() {
+        return this.checkedItems;
     }
 
     /**
@@ -88,6 +72,20 @@ public class CheckBoxFilter extends Filter<List<String>> {
      */
     @Override
     public void clear() {
-        this.checkBoxes.clear();
+        this.checkedItems.clear();
+    }
+
+
+    /**
+     * This method called for save current status of filter object and saving state.
+     */
+    @Override
+    public void save() {
+        for(int i = 0; i < this.llCbRich.getChildCount(); i++){
+            CheckBox checkBox = (CheckBox) this.llCbRich.getChildAt(i);
+            if(checkBox.isChecked()){
+                this.checkedItems.add(getItemWithDisplay(checkBox.getText().toString()));
+            }
+        }
     }
 }

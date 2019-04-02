@@ -11,4 +11,5 @@ public interface Renderer<T1> {
     public View render();
     public T1 result();
     public void clear();
+    public void save();
 }

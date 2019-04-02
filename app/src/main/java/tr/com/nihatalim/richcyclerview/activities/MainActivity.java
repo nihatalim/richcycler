@@ -13,15 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tr.com.nihatalim.richcycler.adapter.OnAdapter;
-import tr.com.nihatalim.richcycler.filters.Filter;
+import tr.com.nihatalim.richcycler.filters.Item;
 import tr.com.nihatalim.richcycler.views.Richcycler;
 import tr.com.nihatalim.richcyclerview.R;
 import tr.com.nihatalim.richcyclerview.models.User;
@@ -55,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        richcycler.saveFiltersStates(FILTER_ID);
                         handleResults();
                     }
                 });
@@ -97,27 +96,25 @@ public class MainActivity extends AppCompatActivity {
         this.richcycler.loadFilters(FILTER_ID);
     }
 
-    private Context getContext(){
-        return this;
-    }
-
     private void handleResults(){
-        String priceFilter = "price";
-        String topicFilter = "topic";
+        // Identified name of filters
         String jobFilter = "job";
         String searchFilter = "search";
+        String seekbarFilter = "seekbar_age";
+        String radioFilter = "radio_sex";
 
-        List<String> priceFilterResult = (List<String>) this.richcycler.getFilterResult(FILTER_ID, priceFilter);
-        List<String> topicFilterResult = ((List<String>) this.richcycler.getFilterResult(FILTER_ID, topicFilter));
+        // Get results from filters result functions
         List<String> jobFilterResult = ((List<String>) this.richcycler.getFilterResult(FILTER_ID, jobFilter));
         String searchFilterResult = (String) this.richcycler.getFilterResult(FILTER_ID, searchFilter);
+        Item radioFilterResult = (Item) this.richcycler.getFilterResult(FILTER_ID, radioFilter);
+        Integer seekbarFilterResult = (Integer) this.richcycler.getFilterResult(FILTER_ID, seekbarFilter);
 
-        Log.d("PriceFilterResult", priceFilterResult.toString());
-        Log.d("TopicFilterResult", topicFilterResult.toString());
+        // Logging
         Log.d("JobFilterResult", jobFilterResult.toString());
         Log.d("SearchFilterResult", searchFilterResult);
+        Log.d("RadioFilterResult", radioFilterResult.toString());
+        Log.d("SeekbarResult", seekbarFilterResult.toString());
     }
-
 
     private void reloadFilters(){
         this.richcycler.reloadFilters(FILTER_ID);
@@ -132,4 +129,9 @@ public class MainActivity extends AppCompatActivity {
         users.add(new User("Haluk"));
         return users;
     }
+
+    private Context getContext(){
+        return this;
+    }
+
 }

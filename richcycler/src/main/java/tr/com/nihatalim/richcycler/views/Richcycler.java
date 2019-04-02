@@ -165,7 +165,11 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
     }
 
     /**
+<<<<<<< HEAD
      * This method is
+=======
+     * This method gets result of named filter
+>>>>>>> Added some filters.
      * @param id This parameter is require for getting loaded filters which id.
      * @param name This parameter is name of the filter.
      * @return Returns an object of resulted from filter.
@@ -175,5 +179,15 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
             if(f.name.equals(name)) return f.result();
         }
         return null;
+    }
+
+    /**
+     * This method save all filters status
+     * @param id This parameter is require for getting loaded filters which id.
+     */
+    public void saveFiltersStates(String id){
+        for (Filter filter : this.getFilters(id)) {
+            filter.save();
+        }
     }
 }
