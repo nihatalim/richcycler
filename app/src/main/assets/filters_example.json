@@ -1,0 +1,104 @@
+﻿{
+	"filters": [
+			{
+				"items": [
+					{
+						"value": "engineer",
+						"display": "Engineer"
+					},
+					{
+						"value": "lawyer",
+						"display": "Lawyer"
+					},
+					{
+						"value": "teacher",
+						"display": "Teacher"
+					},
+					{
+						"value": "student",
+						"display": "Student"
+					},
+					{
+						"value": "worker",
+						"display": "Worker"
+					}
+				],
+				"name": "job",
+				"display": "Job",
+				"type": "checkbox",
+				"renderer": "tr.com.nihatalim.richcycler.filters.CheckBoxFilter"
+			},
+			{
+				"name": "search",
+				"display": "Search",
+				"type": "textbox",
+				"renderer": "tr.com.nihatalim.richcycler.filters.TextBoxFilter"
+			},
+			{
+				"name": "age",
+				"display": "Age",
+				"type": "number",
+				"renderer": "tr.com.nihatalim.richcycler.filters.TextBoxNumberFilter"
+			},
+			{
+				"items": [
+					{
+						"value": "male",
+						"display": "Male"
+					},
+					{
+						"value": "female",
+						"display": "Female"
+					},
+					{
+						"value": "ball",
+						"display": "Ball"
+					}
+				],
+				"name": "spinner sex",
+				"display": "Sex",
+				"type": "number",
+				"renderer": "tr.com.nihatalim.richcycler.filters.SpinnerFilter"
+			},
+			{
+				"items": [
+					{
+						"value": "male",
+						"display": "Male"
+					},
+					{
+						"value": "female",
+						"display": "Female"
+					},
+					{
+						"value": "ball",
+						"display": "Ball"
+					}
+				],
+				"name": "radio sex",
+				"display": "Sex",
+				"type": "radio",
+				"renderer": "tr.com.nihatalim.richcycler.filters.RadioFilter"
+			},
+			{
+				"items": [
+					{
+						"value": "min",
+						"display": "0"
+					},
+					{
+						"value": "max",
+						"display": "100"
+					},
+					{
+						"value": "step",
+						"display": "1"
+					}
+				],
+				"name": "seekbar age",
+				"display": "Age",
+				"type": "seekbar",
+				"renderer": "tr.com.nihatalim.richcycler.filters.SeekbarFilter"
+			}
+	]
+}

@@ -50,7 +50,6 @@ public class SpinnerFilter extends Filter<Item> {
     @Override
     public void clear() {
         this.selectedItem = null;
-        this.adapter.clear();
     }
 
     @Override

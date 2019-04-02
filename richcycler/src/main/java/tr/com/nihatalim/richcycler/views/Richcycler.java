@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Map;
 import tr.com.nihatalim.richcycler.R;
 import tr.com.nihatalim.richcycler.adapter.RichcyclerAdapter;
 import tr.com.nihatalim.richcycler.filters.Filter;
+import tr.com.nihatalim.richcycler.parsers.JsonParser;
 import tr.com.nihatalim.richcycler.parsers.XmlParser;
 
 /**
@@ -90,6 +93,13 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
         this.addFilter(id, XmlParser.parse(xmlFile, getContext()));
     }
 
+    public void loadFiltersFromJson(String id, String json) throws JSONException {
+        if(this.filters.containsKey("id")){
+            this.removeFilter(id);
+        }
+        this.addFilter(id, JsonParser.parse(json, getContext()));
+    }
+
     /**
      * This method returns render each of filter loaded before as a list.
      * @param id This parameter is an identity value and it uses for get from loaded filters.
@@ -99,6 +109,7 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
         List<View> views = new ArrayList<>();
         List<Filter> fs = this.getFilters(id);
 
+        if(fs == null) return null;
         for (Filter fi : fs) {
             views.add(fi.render());
         }
@@ -158,6 +169,29 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
     }
 
     /**
+     * This method is reload a filter from json content
+     * @param id This parameter is require for getting loaded filters which id.
+     * @param json This parameter is json string
+     */
+    public void reloadFiltersFromJson(String id, String json) throws JSONException{
+        this.removeFilter(id);
+        this.loadFiltersFromJson(id, json);
+    }
+
+    /**
+     * This method clears filters states.
+     * @param id This parameter is require for getting loaded filters which id.
+     */
+    public void clearFiltersStates(String id){
+        if(this.filters.containsKey(id)){
+            List<Filter> fs = this.filters.get(id);
+            for (Filter f : fs) {
+                f.clear();
+            }
+        }
+    }
+
+    /**
      * This method is require for build recyclerview.
      */
     public void build(){
@@ -171,6 +205,7 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
      * @return Returns an object of resulted from filter.
      */
     public Object getFilterResult(String id, String name){
+        if(!filters.containsKey(id)) return null;
         for (Filter f:this.getFilters(id)) {
             if(f.name.equals(name)) return f.result();
         }
@@ -182,8 +217,10 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
      * @param id This parameter is require for getting loaded filters which id.
      */
     public void saveFiltersStates(String id){
-        for (Filter filter : this.getFilters(id)) {
-            filter.save();
+        if(filters.containsKey(id)){
+            for (Filter filter : this.getFilters(id)) {
+                filter.save();
+            }
         }
     }
 }

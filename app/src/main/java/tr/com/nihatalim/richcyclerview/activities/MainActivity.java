@@ -15,6 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 View inflatedView = LayoutInflater.from(getContext()).inflate(R.layout.filter_main, null);
                 LinearLayout linearLayout = inflatedView.findViewById(R.id.llContent);
 
-                for (View v:richcycler.getViews(FILTER_ID)) {
-                    linearLayout.addView(v);
+                List<View> viewss = richcycler.getViews(FILTER_ID);
+                if(viewss != null) {
+                    for (View v : viewss) {
+                        linearLayout.addView(v);
+                    }
                 }
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                     @Override
@@ -93,7 +100,16 @@ public class MainActivity extends AppCompatActivity {
 
         this.richcycler.build();
 
-        this.richcycler.loadFilters(FILTER_ID);
+        String json = fetchJson();
+
+        if(json != null){
+            try {
+                this.richcycler.loadFiltersFromJson(FILTER_ID, json);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        //this.richcycler.loadFilters(FILTER_ID);
     }
 
     private void handleResults(){
@@ -110,14 +126,23 @@ public class MainActivity extends AppCompatActivity {
         Integer seekbarFilterResult = (Integer) this.richcycler.getFilterResult(FILTER_ID, seekbarFilter);
 
         // Logging
-        Log.d("JobFilterResult", jobFilterResult.toString());
-        Log.d("SearchFilterResult", searchFilterResult);
-        Log.d("RadioFilterResult", radioFilterResult.toString());
-        Log.d("SeekbarResult", seekbarFilterResult.toString());
+        if(jobFilterResult!=null){
+            Log.d("JobFilterResult", jobFilterResult.toString());
+        }
+        if(searchFilterResult!=null){
+            Log.d("SearchFilterResult", searchFilterResult);
+        }
+        if(radioFilterResult!=null){
+            Log.d("RadioFilterResult", radioFilterResult.toString());
+        }
+        if(seekbarFilterResult!=null){
+            Log.d("SeekbarResult", seekbarFilterResult.toString());
+        }
     }
 
     private void reloadFilters(){
-        this.richcycler.reloadFilters(FILTER_ID);
+        //this.richcycler.reloadFilters(FILTER_ID);
+        this.richcycler.clearFiltersStates(FILTER_ID);
     }
 
     private List<User> fetchUsers(){
@@ -128,6 +153,22 @@ public class MainActivity extends AppCompatActivity {
         users.add(new User("Nalan"));
         users.add(new User("Haluk"));
         return users;
+    }
+
+    private String fetchJson(){
+        String json = null;
+        try {
+            InputStream is = getAssets().open("filters_example.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return json;
     }
 
     private Context getContext(){
