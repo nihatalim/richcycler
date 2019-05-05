@@ -2,10 +2,13 @@ package tr.com.nihatalim.richcycler.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import org.json.JSONException;
 
@@ -28,11 +31,25 @@ import tr.com.nihatalim.richcycler.parsers.XmlParser;
  *
  * @Author Nihat ALİM
  */
-public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends RecyclerView {
+public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends FrameLayout {
     /**
      * This is a generic adapter of recyclerview.
      */
     public RichcyclerAdapter<THolder, TModel> adapter;
+
+    public RecyclerView recyclerView;
+
+    private boolean isSwipeEnabled;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private SwipeRefreshLayout.OnRefreshListener refreshListener;
+
+    private CountDownTimer countDownTimer;
+
+    private long maxSwipeTime;
+
+    private int DEFAULT_SWIPE_TIME = 5000;
 
     /**
      * This map holds parsed and created filters. It supports working multiple filter file.
@@ -58,6 +75,8 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
     public Richcycler(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        this.recyclerView = new RecyclerView(context);
+
         TypedArray params = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Richcycler,0,0);
 
         this.filterFileName = params.getString(R.styleable.Richcycler_filter);
@@ -69,6 +88,20 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
         else {
             this.adapter = new RichcyclerAdapter<>(new ArrayList<TModel>(), context);
         }
+
+        this.maxSwipeTime = params.getInt(R.styleable.Richcycler_max_swipe_time, DEFAULT_SWIPE_TIME);
+
+        this.isSwipeEnabled = params.getBoolean(R.styleable.Richcycler_swipe, false);
+
+        if(this.isSwipeEnabled){
+            swipeRefreshLayout = new SwipeRefreshLayout(context);
+            swipeRefreshLayout.addView(this.recyclerView);
+            swipeRefreshLayout.setEnabled(false);
+            addView(swipeRefreshLayout);
+        }else{
+            addView(recyclerView);
+        }
+
     }
 
     /**
@@ -191,11 +224,45 @@ public class Richcycler<THolder extends RecyclerView.ViewHolder, TModel> extends
         }
     }
 
+    public void addSwipe(SwipeRefreshLayout.OnRefreshListener swipeAction) {
+        this.refreshListener = swipeAction;
+
+        if(swipeRefreshLayout == null) return;
+
+        this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshListener.onRefresh();
+
+                countDownTimer = new CountDownTimer(maxSwipeTime, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        if(!swipeRefreshLayout.isRefreshing()){
+                            countDownTimer.cancel();
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        stopSwipe();
+                    }
+                };
+                countDownTimer.start();
+            }
+        });
+
+        this.swipeRefreshLayout.setEnabled(true);
+    }
+
+    public void stopSwipe(){
+        this.swipeRefreshLayout.setRefreshing(false);
+    }
+
     /**
      * This method is require for build recyclerview.
      */
     public void build(){
-        this.adapter.build(this);
+        this.adapter.build(this.recyclerView);
     }
 
     /**

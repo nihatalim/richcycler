@@ -89,6 +89,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/annotatıon_processor_lıst" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check_manıfest_result" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/compıle_only_not_namespaced_r_class_jar" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/full_jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/intermediate-jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />

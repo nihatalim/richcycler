@@ -39,5 +39,6 @@
         android:layout_height="match_parent"
         app:holder="@layout/holder_user"
         app:filter="filters_example"
+        app:swipe="true"
         />
 </LinearLayout>
