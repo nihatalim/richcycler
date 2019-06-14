@@ -1,5 +1,5 @@
 # Richcycler
-Generic RecyclerView implementation with filters (xml and json supported), swiper and pagination.
+Generic RecyclerView implementation with filters (xml and json supported), swiper and pagination. For more details, [READ WIKI](https://github.com/nihatalim/richcycler/wiki/0.Home).
 
 # Step 1: Installation
 
